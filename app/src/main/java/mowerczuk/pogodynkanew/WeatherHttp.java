@@ -1,5 +1,7 @@
 package mowerczuk.pogodynkanew;
 
+import android.content.Intent;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -29,7 +31,25 @@ public class WeatherHttp {
 
             // Let's read the response
             StringBuffer buffer = new StringBuffer();
-            is = con.getInputStream();
+            boolean sw = true;
+            Integer counter = 0;
+            while(sw){
+                try{
+                    is = con.getInputStream();
+                    sw = false;
+                }
+                catch (Exception ex){
+                    con = (HttpURLConnection) ( new URL(BASE_URL + city + "," + country + "&lang=" + country + "&appid=7d72686d2658e5171d456d5d6b069ce2")).openConnection();
+                    con.setRequestMethod("GET");
+                    con.setDoInput(true);
+                    con.setDoOutput(true);
+                    con.connect();
+                    counter++;
+                }
+                if (counter > 10){
+                    sw = false;
+                }
+            }
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line = null;
             while (  (line = br.readLine()) != null )

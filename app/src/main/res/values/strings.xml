@@ -5,4 +5,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="new_location">Nowa miejscowość</string>
+    <string name="city">Miejscowość</string>
+    <string name="country">Kraj</string>
+    <string name="add">Dodaj</string>
+    <string name="fill_fields">Uzupełnij pola</string>
+    <string name="cannot_do_this">Nie można wykonać tej operacji</string>
+    <string name="delete">Usuń</string>
+    <string name="edit_location">Edytuj miejscowość</string>
+    <string name="edit">Edytuj</string>
+    <string name="weather_downloading">Pobieranie pogody</string>
+    <string name="gps_searching">Szukanie GPS</string>
+    <string name="please_wait">Proszę czekać</string>
 </resources>

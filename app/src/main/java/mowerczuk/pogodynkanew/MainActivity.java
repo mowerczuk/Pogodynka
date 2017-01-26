@@ -1,7 +1,9 @@
 package mowerczuk.pogodynkanew;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.text.Normalizer;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity
@@ -55,6 +58,10 @@ public class MainActivity extends AppCompatActivity
     String country = "pl";
 
     LocationManager mLocationManager;
+    FloatingActionButton gpsButton;
+
+    ProgressDialog gpsProgress;
+    ProgressDialog weatherProgress;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -68,8 +75,16 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton refreshButton = (FloatingActionButton) findViewById(R.id.refresh);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getWeather();
+            }
+        });
+
+        gpsButton = (FloatingActionButton) findViewById(R.id.gps);
+        gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getGpsWeather();
@@ -146,7 +161,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            Intent locationsActivity = new Intent(this, FavouritesActivity.class);
+            startActivityForResult(locationsActivity, 0);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_send) {
@@ -170,7 +186,22 @@ public class MainActivity extends AppCompatActivity
         if (adr != null && adr.size() > 0) {
             city = deAccent(adr.get(0).getLocality());
             country = adr.get(0).getCountryCode();
-            getWeather();
+
+            //cityText.setText(R.string.weather_downloading);
+
+            if (gpsProgress != null){
+                if (gpsProgress.isShowing()){
+                    gpsProgress.cancel();
+                    gpsProgress = null;
+                }
+            }
+            weatherProgress = new ProgressDialog(MainActivity.this);
+            weatherProgress.setTitle(R.string.weather_downloading);
+            weatherProgress.setMessage(getString(R.string.please_wait));
+            weatherProgress.show();
+
+            JSONWeatherTask task = new JSONWeatherTask();
+            task.execute(new String[]{city, country});
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -185,6 +216,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        city = data.getStringExtra("city");
+        country = data.getStringExtra("country");
+        getWeather();
+    }
+
     public String deAccent(String str) {
         str = str.replaceAll("ł", "l");
         str = str.replaceAll("Ł", "l");
@@ -194,12 +234,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getWeather(){
+        //cityText.setText(R.string.weather_downloading);
+
+        weatherProgress = new ProgressDialog(MainActivity.this);
+        weatherProgress.setTitle(R.string.weather_downloading);
+        weatherProgress.setMessage(getString(R.string.please_wait));
+        weatherProgress.show();
+
         JSONWeatherTask task = new JSONWeatherTask();
         task.execute(new String[]{city, country});
     }
 
     public void getGpsWeather(){
-        cityText.setText("loading");
+        //cityText.setText(R.string.gps_searching);
+
+        gpsProgress = new ProgressDialog(MainActivity.this);
+        gpsProgress.setTitle(R.string.gps_searching);
+        gpsProgress.setMessage(getString(R.string.please_wait));
+        gpsProgress.show();
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -301,6 +355,14 @@ public class MainActivity extends AppCompatActivity
             press.setText("" + weather.currentCondition.getPressure() + " hPa");
             windSpeed.setText("" + weather.wind.getSpeed() + " m/s");
             windDeg.setText("(" + weather.wind.getDeg() + "\u00b0" + ")");
+
+
+            if (weatherProgress != null){
+                if (weatherProgress.isShowing()){
+                    weatherProgress.cancel();
+                    weatherProgress = null;
+                }
+            }
 
         }
     }

@@ -16,25 +16,22 @@ public class LocationModel implements Serializable {
     private String _country;
     private String _city;
 
-    public LocationModel(float _longitude, float _latitude, long _sunset, long _sunrise, String _country, String _city) {
-        this._longitude = _longitude;
-        this._latitude = _latitude;
-        this._sunset = _sunset;
-        this._sunrise = _sunrise;
+    public LocationModel() {
+    }
+
+    public LocationModel(String _country, String _city) {
         this._country = _country;
         this._city = _city;
     }
 
-    public LocationModel(int ID, float _longitude, float _latitude, long _sunset, long _sunrise, String _country, String _city) {
+    public LocationModel(int ID, String _country, String _city) {
         this.ID = ID;
-        this._longitude = _longitude;
-        this._latitude = _latitude;
-        this._sunset = _sunset;
-        this._sunrise = _sunrise;
         this._country = _country;
         this._city = _city;
     }
 
+    public int getID() { return ID; }
+    public void setID(int ID) { this.ID = ID; }
     public float getLongitude() {
         return _longitude;
     }
