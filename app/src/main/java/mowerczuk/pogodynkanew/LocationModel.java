@@ -8,12 +8,32 @@ import java.util.Locale;
  */
 
 public class LocationModel implements Serializable {
+    int ID;
     private float _longitude;
     private float _latitude;
     private long _sunset;
     private long _sunrise;
     private String _country;
     private String _city;
+
+    public LocationModel(float _longitude, float _latitude, long _sunset, long _sunrise, String _country, String _city) {
+        this._longitude = _longitude;
+        this._latitude = _latitude;
+        this._sunset = _sunset;
+        this._sunrise = _sunrise;
+        this._country = _country;
+        this._city = _city;
+    }
+
+    public LocationModel(int ID, float _longitude, float _latitude, long _sunset, long _sunrise, String _country, String _city) {
+        this.ID = ID;
+        this._longitude = _longitude;
+        this._latitude = _latitude;
+        this._sunset = _sunset;
+        this._sunrise = _sunrise;
+        this._country = _country;
+        this._city = _city;
+    }
 
     public float getLongitude() {
         return _longitude;

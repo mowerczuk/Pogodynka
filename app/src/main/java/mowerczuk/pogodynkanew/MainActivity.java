@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -37,7 +36,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.Normalizer;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -53,8 +51,8 @@ public class MainActivity extends AppCompatActivity
     private TextView hum;
     private ImageView imgView;
 
-    String city = "";
-    String country = "";
+    String city = "Warszawa";
+    String country = "pl";
 
     LocationManager mLocationManager;
     /**
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateWeather();
+                getGpsWeather();
             }
         });
 
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         // getting current location
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        updateWeather();
+        getWeather();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -172,8 +170,7 @@ public class MainActivity extends AppCompatActivity
         if (adr != null && adr.size() > 0) {
             city = deAccent(adr.get(0).getLocality());
             country = adr.get(0).getCountryCode();
-            JSONWeatherTask task = new JSONWeatherTask();
-            task.execute(new String[]{city, country});
+            getWeather();
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -196,7 +193,12 @@ public class MainActivity extends AppCompatActivity
         return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
 
-    public void updateWeather(){
+    public void getWeather(){
+        JSONWeatherTask task = new JSONWeatherTask();
+        task.execute(new String[]{city, country});
+    }
+
+    public void getGpsWeather(){
         cityText.setText("loading");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -279,7 +281,6 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             return weather;
-
         }
 
         @Override
