@@ -14,11 +14,16 @@
     <string name="please_wait">Proszę czekać</string>
     <string name="weather_downloading">Pobieranie pogody</string>
     <string name="wind">Wiatr</string>
-    <string name="pressure">Cisnienie</string>
+    <string name="pressure">Ciśnienie</string>
     <string name="humidity">Wilgotność</string>
     <string name="direction">Kierunek</string>
     <string name="locale">pl</string>
     <string name="weather">Pogoda</string>
     <string name="favourite">Ulubione</string>
     <string name="about">O programie</string>
+    <string name="app_description">Aplikacja pogodynka służy do pobierania aktualnej pogody. Możesz użyć lokalizacji GPS jak i tych zapisanych w bazie, którymi możesz zarządzać. Potrząśnij żeby odświeżyć! Miłej zabawy!</string>
+    <string name="author">Autor</string>
+    <string name="last_update">Aktualizacja</string>
+    <string name="version">Wersja</string>
+    <string name="right_reserved">Wszelkie prawa zastrzeżone.</string>
 </resources>

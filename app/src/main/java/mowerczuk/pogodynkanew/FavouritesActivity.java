@@ -172,6 +172,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
         //btn = (Button) findViewById(R.id.button);
         //addBtn = (Button) findViewById(R.id.newButton);
+        /*
         if (myDB.getLocationsCount() == 0)
         {
             myDB.addLocation(new LocationModel("Bialystok", "Poland"));
@@ -179,6 +180,7 @@ public class FavouritesActivity extends AppCompatActivity {
             myDB.addLocation(new LocationModel("Berlin", "Germany"));
             myDB.addLocation(new LocationModel("Helsinki", "Finland"));
         }
+        */
 
         locations = myDB.getAllLocations();
 

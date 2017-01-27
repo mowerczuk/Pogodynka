@@ -7,6 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -43,6 +49,9 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
+import static android.R.attr.x;
+import static android.R.attr.y;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
     private TextView cityText;
@@ -61,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     LocationManager mLocationManager;
     FloatingActionButton gpsButton;
     NavigationView navigationView;
+    SensorManager sensorMgr;
 
     ProgressDialog gpsProgress;
     ProgressDialog weatherProgress;
@@ -69,6 +79,30 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    private SensorManager mSensorManager;
+    private float mAccel; // acceleration apart from gravity
+    private float mAccelCurrent; // current acceleration including gravity
+    private float mAccelLast; // last acceleration including gravity
+
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+
+        public void onSensorChanged(SensorEvent se) {
+            float x = se.values[0];
+            float y = se.values[1];
+            float z = se.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+            if (mAccel > 12) {
+                getWeather();
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +137,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        // my logic here
         // getting weather
         cityText = (TextView) findViewById(R.id.cityText);
         condMain = (TextView) findViewById(R.id.condMain);
@@ -115,9 +148,17 @@ public class MainActivity extends AppCompatActivity
         windDeg = (TextView) findViewById(R.id.windDeg);
         imgView = (ImageView) findViewById(R.id.condIcon);
 
+        // accelerometer
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+
         // getting current location
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        getWeather();
+        getGpsWeather();
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -162,15 +203,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_homepage) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_favourites) {
             Intent locationsActivity = new Intent(this, FavouritesActivity.class);
             startActivityForResult(locationsActivity, 0);
-        } else if (id == R.id.nav_manage) {
+        }
+        /*
+        else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_send) {
-
+        }
+        */
+        else if (id == R.id.nav_about) {
+            Intent aboutActivity = new Intent(this, AboutActivity.class);
+            startActivityForResult(aboutActivity, 1);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -197,6 +243,11 @@ public class MainActivity extends AppCompatActivity
                 if (gpsProgress.isShowing()){
                     gpsProgress.cancel();
                     gpsProgress = null;
+                }
+            }if (weatherProgress != null){
+                if (weatherProgress.isShowing()){
+                    weatherProgress.cancel();
+                    weatherProgress = null;
                 }
             }
             weatherProgress = new ProgressDialog(MainActivity.this);
@@ -244,6 +295,7 @@ public class MainActivity extends AppCompatActivity
 
     public void getWeather(){
         //cityText.setText(R.string.weather_downloading);
+        mSensorManager.unregisterListener(mSensorListener);
 
         weatherProgress = new ProgressDialog(MainActivity.this);
         weatherProgress.setTitle(R.string.weather_downloading);
@@ -256,6 +308,7 @@ public class MainActivity extends AppCompatActivity
 
     public void getGpsWeather(){
         //cityText.setText(R.string.gps_searching);
+        mSensorManager.unregisterListener(mSensorListener);
 
         gpsProgress = new ProgressDialog(MainActivity.this);
         gpsProgress.setTitle(R.string.gps_searching);
@@ -327,6 +380,18 @@ public class MainActivity extends AppCompatActivity
         client.disconnect();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        mSensorManager.unregisterListener(mSensorListener);
+        super.onPause();
+    }
+
     private class JSONWeatherTask extends AsyncTask<String, Void, WeatherModel> {
 
         @Override
@@ -373,6 +438,8 @@ public class MainActivity extends AppCompatActivity
                     weatherProgress = null;
                 }
             }
+
+            mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 
         }
     }

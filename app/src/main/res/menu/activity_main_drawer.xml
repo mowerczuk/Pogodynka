@@ -3,26 +3,23 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_homepage"
             android:icon="@android:drawable/ic_menu_compass"
             android:title="@string/weather" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_favourites"
             android:icon="@android:drawable/btn_star_big_off"
             android:title="@string/favourite" />
+        <!--
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_settings"
             android:icon="@android:drawable/ic_menu_edit"
             android:title="@string/action_settings" />
+            -->
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@android:drawable/ic_menu_info_details"
+            android:title="@string/about" />
     </group>
-
-    <item android:title="Info">
-        <menu>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@android:drawable/ic_menu_info_details"
-                android:title="@string/about" />
-        </menu>
-    </item>
 
 </menu>

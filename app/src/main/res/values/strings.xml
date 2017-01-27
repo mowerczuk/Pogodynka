@@ -23,4 +23,10 @@
     <string name="favourite">Favourite</string>
     <string name="about">About</string>
     <string name="weather">Weather</string>
+    <string name="version">Version</string>
+    <string name="last_update">Last update</string>
+    <string name="author">Author</string>
+    <string name="app_description">Pogodynka app is used for getting current weather conditions. You can use GPS location or saved locations in database which you can manage. Shake to refresh! Enjoy!</string>
+    <string name="author_sign">Maciej Owerczuk</string>
+    <string name="right_reserved">All right reserved.</string>
 </resources>
