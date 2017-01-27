@@ -18,11 +18,8 @@
         style="@style/textInputs"/>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/containerCenter"
         android:layout_gravity="center">
-
         <Button
             android:id="@+id/deleteLocationButton"
             android:layout_width="wrap_content"

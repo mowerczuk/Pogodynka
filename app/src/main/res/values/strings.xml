@@ -15,4 +15,12 @@
     <string name="weather_downloading">Weather downloading</string>
     <string name="gps_searching">GPS searching</string>
     <string name="please_wait">Please wait</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="direction">Direction</string>
+    <string name="locale">en</string>
+    <string name="favourite">Favourite</string>
+    <string name="about">About</string>
+    <string name="weather">Weather</string>
 </resources>

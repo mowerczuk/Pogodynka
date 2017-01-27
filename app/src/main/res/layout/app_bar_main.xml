@@ -17,7 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -26,16 +26,16 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/gps"
-        android:layout_gravity="top|end"
+        android:layout_gravity="left|end"
         app:layout_anchor="@+id/dummy"
         app:srcCompat="@android:drawable/ic_menu_mylocation"
         style="@style/whiteIcons" />
     <View
         android:id="@+id/dummy"
-        android:layout_width="1dp"
-        android:layout_height="25dp"
+        android:layout_width="25dp"
+        android:layout_height="1dp"
         app:layout_anchor="@+id/refresh"
-        app:layout_anchorGravity="top|right|end" />
+        app:layout_anchorGravity="bottom|left|end" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/refresh"

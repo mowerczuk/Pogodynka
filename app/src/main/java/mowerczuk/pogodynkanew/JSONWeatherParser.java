@@ -1,5 +1,7 @@
 package mowerczuk.pogodynkanew;
 
+import android.content.Intent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,7 +92,8 @@ public class JSONWeatherParser {
         }
         //temp
         try{
-            weather.temperature.setTemp(Float.toString(Math.round(getFloat("temp", mainObject) - 273.15)));
+            float tmpTemp = (float) (getFloat("temp", mainObject) - 273.15);
+            weather.temperature.setTemp(Integer.toString(Math.round(tmpTemp)));
         }
         catch(Exception ex){
             weather.temperature.setTemp("N/A");
@@ -105,7 +108,7 @@ public class JSONWeatherParser {
             weather.wind.setSpeed("N/A");
         }
         try{
-            weather.wind.setDeg(Float.toString(getFloat("deg", windObject)));
+            weather.wind.setDeg(Integer.toString(Math.round(getFloat("deg", windObject))));
         }
         catch(Exception ex){
             weather.wind.setDeg("N/A");

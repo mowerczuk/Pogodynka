@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
     private TextView cityText;
+    private TextView condMain;
     private TextView condDescr;
     private TextView temp;
     private TextView press;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     LocationManager mLocationManager;
     FloatingActionButton gpsButton;
+    NavigationView navigationView;
 
     ProgressDialog gpsProgress;
     ProgressDialog weatherProgress;
@@ -97,12 +99,14 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         // my logic here
         // getting weather
         cityText = (TextView) findViewById(R.id.cityText);
+        condMain = (TextView) findViewById(R.id.condMain);
         condDescr = (TextView) findViewById(R.id.condDescr);
         temp = (TextView) findViewById(R.id.temp);
         hum = (TextView) findViewById(R.id.hum);
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         if (adr != null && adr.size() > 0) {
-            city = deAccent(adr.get(0).getLocality());
+            city = adr.get(0).getLocality();
             country = adr.get(0).getCountryCode();
 
             //cityText.setText(R.string.weather_downloading);
@@ -227,6 +231,7 @@ public class MainActivity extends AppCompatActivity
             country = tmpCountry;
             getWeather();
         }
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     public String deAccent(String str) {
@@ -327,7 +332,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected WeatherModel doInBackground(String... params) {
             WeatherModel weather = new WeatherModel();
-            String data = ((new WeatherHttp()).getWeatherData(params[0], params[1]));
+            String data = ((new WeatherHttp()).getWeatherData(deAccent(params[0]), params[1], getString(R.string.locale)));
 
             try {
                 weather = JSONWeatherParser.getWeather(data);
@@ -353,12 +358,13 @@ public class MainActivity extends AppCompatActivity
             Locale loc = new Locale("", "pl");
             loc.getDisplayCountry();
             cityText.setText(weather.location.getCity() + ", " + weather.location.getCountry());
-            condDescr.setText(weather.currentCondition.getCondition() + "(" + weather.currentCondition.getDescr() + ")");
+            condMain.setText(weather.currentCondition.getCondition());
+            condDescr.setText(weather.currentCondition.getDescr());
             temp.setText("" + (weather.temperature.getTemp()) + "\u00b0C");
             hum.setText("" + weather.currentCondition.getHumidity() + "%");
             press.setText("" + weather.currentCondition.getPressure() + " hPa");
             windSpeed.setText("" + weather.wind.getSpeed() + " m/s");
-            windDeg.setText("(" + weather.wind.getDeg() + "\u00b0" + ")");
+            windDeg.setText("" + weather.wind.getDeg() + "\u00b0");
 
 
             if (weatherProgress != null){

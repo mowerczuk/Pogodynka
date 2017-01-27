@@ -13,4 +13,12 @@
     <string name="new_location">Nowa miejscowość</string>
     <string name="please_wait">Proszę czekać</string>
     <string name="weather_downloading">Pobieranie pogody</string>
+    <string name="wind">Wiatr</string>
+    <string name="pressure">Cisnienie</string>
+    <string name="humidity">Wilgotność</string>
+    <string name="direction">Kierunek</string>
+    <string name="locale">pl</string>
+    <string name="weather">Pogoda</string>
+    <string name="favourite">Ulubione</string>
+    <string name="about">O programie</string>
 </resources>

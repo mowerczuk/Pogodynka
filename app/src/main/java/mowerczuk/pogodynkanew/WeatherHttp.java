@@ -18,12 +18,12 @@ public class WeatherHttp {
     private static String IMG_URL = "http://openweathermap.org/img/w/";
 
 
-    public String getWeatherData(String city, String country) {
+    public String getWeatherData(String city, String country, String locale) {
         HttpURLConnection con = null ;
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + city + "," + country + "&lang=" + country + "&appid=7d72686d2658e5171d456d5d6b069ce2")).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + city + "," + country + "&lang=" + locale + "&appid=7d72686d2658e5171d456d5d6b069ce2")).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);

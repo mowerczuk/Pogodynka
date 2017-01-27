@@ -17,18 +17,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="tempStyle" parent="@android:style/TextAppearance.Large">
-        <item name="android:textColor">#2E9AFE</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="valData" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">#74DF00</item>
-        <item name="android:textStyle">bold</item>
-    </style>
 
     <!-- MY STYLES -->
-
     <style name="whiteIcons">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -94,9 +84,72 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/small_margin</item>
-        <item name="android:textSize">@dimen/title_text</item>
+        <item name="android:textSize">@dimen/large_text</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>
 
+    <style name="weatherIcon">
+        <item name="android:layout_width">@dimen/medium_img</item>
+        <item name="android:layout_height">@dimen/medium_img</item>
+    </style>
+
+    <style name="weatherShort">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">@dimen/title_text</item>
+    </style>
+
+    <style name="weatherDescription">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">@dimen/description_text</item>
+    </style>
+
+    <style name="weatherTemperature" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/temperature</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/extreme_large_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="weatherLabels">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/title_text</item>
+        <item name="android:layout_margin">@dimen/small_margin</item>
+    </style>
+
+    <style name="weatherData" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/title_text</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">@dimen/small_margin</item>
+    </style>
+
+    <style name="containerCenter">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/side_nav_bar</item>
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/side_nav_bar</item>
+    </style>
 </resources>
