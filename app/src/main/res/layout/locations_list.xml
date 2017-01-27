@@ -4,12 +4,8 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/city"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textSize="20sp" />
+        style="@style/titleText"/>
     <TextView
         android:id="@+id/country"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textSize="20sp" />
+        style="@style/descriptionText"/>
 </LinearLayout>

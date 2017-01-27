@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Ustawienia</string>
+    <string name="add">Dodaj</string>
+    <string name="cannot_do_this">Nie można wykonać operacji</string>
+    <string name="city">Miasto</string>
+    <string name="country">Kraj</string>
+    <string name="delete">Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="edit_location">Edytuj miejscowość</string>
+    <string name="fill_fields">Wypełnij pola</string>
+    <string name="gps_searching">Szukanie GPS</string>
+    <string name="new_location">Nowa miejscowość</string>
+    <string name="please_wait">Proszę czekać</string>
+    <string name="weather_downloading">Pobieranie pogody</string>
+</resources>

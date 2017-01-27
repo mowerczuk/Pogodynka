@@ -183,4 +183,14 @@ public class FavouritesActivity extends AppCompatActivity {
         adapter = new LocationListAdapter(this, locations);
         mainListView.setAdapter(adapter);
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent mainActivity = new Intent(getApplicationContext(), MainActivity.class);
+
+        mainActivity.putExtra("city", "");
+        mainActivity.putExtra("country", "");
+        setResult(0, mainActivity);
+        finish();
+    }
 }

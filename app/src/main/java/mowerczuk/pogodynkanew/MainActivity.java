@@ -220,9 +220,13 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        city = data.getStringExtra("city");
-        country = data.getStringExtra("country");
-        getWeather();
+        String tmpCity = data.getStringExtra("city");
+        String tmpCountry = data.getStringExtra("country");
+        if (!tmpCity.equals("") && !tmpCountry.equals("")){
+            city = tmpCity;
+            country = tmpCountry;
+            getWeather();
+        }
     }
 
     public String deAccent(String str) {
